@@ -1,0 +1,15 @@
+server:
+  port: 10013
+
+
+spring:
+  application:
+    name: user-service
+  # cloud config
+  cloud:
+    # nacos
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        group: test
+        namespace: d74e2d14-cfc4-4218-8da2-f9700fd7a8ec
