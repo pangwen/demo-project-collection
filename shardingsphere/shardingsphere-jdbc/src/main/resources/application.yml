@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: shardingsphere-jdbc-demo
+
+
+  shardingsphere:
+    enabled: true
+    props:
+      sql-show: true
+    datasource:
+      names: testdb
+      testdb:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://192.168.1.3:3306/testdb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&tinyInt1isBit=false
+        username: test
+        password: pw0826
+
+    sharding:
+      tables:
+        test_user:
+          actual-data-nodes: testdb.test_user
+          table-strategy:
+            inline:
+              sharding-column: id
+              algorithm-expression: test_user_$(id % 1000000)
+    mode:
+      type: Standalone
+  main:
+    allow-bean-definition-overriding: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml

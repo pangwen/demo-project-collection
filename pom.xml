@@ -18,6 +18,7 @@
 
     <modules>
         <module>springcloud-alibaba</module>
+        <module>shardingsphere</module>
     </modules>
 
 
