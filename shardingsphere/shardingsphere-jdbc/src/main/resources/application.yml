@@ -4,9 +4,16 @@ spring:
 
 
   shardingsphere:
-    enabled: true
+#    enabled: true
     props:
-      sql-show: true
+      sql-show: false
+
+#    单机模式
+    mode:
+      type: Standalone
+      repository:
+        type: JDBC
+#    数据源配置
     datasource:
       names: testdb
       testdb:
@@ -16,18 +23,20 @@ spring:
         username: test
         password: pw0826
 
-    sharding:
-      tables:
-        test_user:
-          actual-data-nodes: testdb.test_user
-          table-strategy:
-            inline:
-              sharding-column: id
-              algorithm-expression: test_user_$(id % 1000000)
-    mode:
-      type: Standalone
-  main:
-    allow-bean-definition-overriding: true
-
+#    分片规则配置
+    rules:
+      sharding:
+        tables:
+          test_user:
+            actual-data-nodes: testdb.test_user_${0..9}
+            table-strategy:
+              standard:
+                sharding-column: id
+                sharding-algorithm-name: test_user_inline
+        sharding-algorithms:
+          test_user_inline:
+            type: INLINE
+            props:
+              algorithm-expression:  test_user_${id.intdiv(1000000)}
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml

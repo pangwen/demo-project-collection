@@ -4,9 +4,11 @@ package com.pangw.sharding.service;
 import com.pangw.sharding.entity.UserEntity;
 import com.pangw.sharding.mapper.UserMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Component
 public class UserService {
@@ -18,23 +20,17 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public void insert(){
-        int batch = 200;
-        List<UserEntity> users = new ArrayList<>(300);
-        for (int i = 0; i < 10_000_000; i++) {
+    @Transactional
+    public void insert(UserEntity user){
+        userMapper.insert(user);
+    }
 
-            UserEntity userEntity = new UserEntity();
-            userEntity.randomUser();
-            userEntity.setId(i + 1L);
-
-            users.add(userEntity);
-
-            if (i > 0 && i % batch == 0) {
-                userMapper.insertBatch(users);
-                users.clear();
-            }
-
-        }
+    @Transactional
+    public void batchInsert(List<UserEntity> users){
+//        if (Objects.nonNull(users) && !users.isEmpty()) {
+//
+//        }
+        Optional.ofNullable(users).ifPresent(i -> i.forEach(this::insert));
     }
 
 }

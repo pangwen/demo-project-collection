@@ -26,7 +26,7 @@ public class UserEntity implements Serializable {
 
     private final Random random = new Random();
     private final String[] genders = {"F", "M"};
-    private final String strs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String strs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     public void randomUser( ){
         this.setName(randomName());
@@ -38,7 +38,7 @@ public class UserEntity implements Serializable {
 
 
     private String randomName(){
-        int len = 20;
+        int len = 6;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < len; i++) {
             sb.append(strs.charAt(random.nextInt(strs.length() - 1)));

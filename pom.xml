@@ -19,6 +19,7 @@
     <modules>
         <module>springcloud-alibaba</module>
         <module>shardingsphere</module>
+        <module>simple-test</module>
     </modules>
 
 
